@@ -8,6 +8,15 @@ const routes: Array<RouteRecordRaw> = [
     redirect: '/tabs/tab1'
   },
   {
+    path: '/auth/microsoft/callback',
+    name: 'microsoft-auth-callback',
+    component: () => import('@/components/MicrosoftAuthHandler.vue')
+  },
+  {
+    path: '/login',
+    component: () => import('@/views/Login.vue')
+  },
+  {
     path: '/tabs/',
     component: TabsPage,
     children: [
@@ -26,7 +35,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: 'tab3',
         component: () => import('@/views/Tab3Page.vue')
-      }
+      },
     ]
   }
 ]
