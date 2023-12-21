@@ -6,16 +6,16 @@
         </div>
           <div class="list flex-container">
             <div v-for="number in 5" :key="number" class="img">
-              <ion-button fill="clear" @click="selectMood(number)">
+              <ion-button fill="clear" @click="selectMood(number)" class="Emote">
                 <img :src="getEmojiSrc(number)" :alt="`Humeur ${number}`"
-                :class="{ selected: mood === number }" class="Emote">
+                :class="{ selected: mood === number }">
               </ion-button>
             </div>
-            <ion-alert-controller></ion-alert-controller>
           </div>
-        <ion-button @click="submitMood">Soumettre</ion-button>
-        </div>
-    
+        <div class="Button">  
+        <img src="../images-icons/BoutonPush.png" @click="submitMood" class="BTN" />
+      </div>
+    </div>
   </template>
   
   <script>
@@ -23,18 +23,17 @@
   
   export default {
     components: {
-      IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonGrid, IonRow, IonCol, IonButton
-    },
+      IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonGrid, IonRow, IonCol, IonButton},
     
     data() {
       return {
-        mood: null // Aucun émoji n'est sélectionné par défaut
+        mood: null, // Aucun émoji n'est sélectionné par défaut
       };
+      
     },
 
     computed: {
       selectedEmojiSrc() {
-        // Mettez à jour le chemin si nécessaire pour correspondre à l'emplacement de vos images
         return this.mood ? `src/images-icons/emoji/emoji${this.mood}.png` : 'src/images-icons/emoji/emoji4.png';
       }
     },
@@ -43,32 +42,65 @@
       selectMood(number) {
         this.mood = this.mood === number ? null : number;
       },
+
       getEmojiSrc(number) {
-        // Mettez à jour le chemin si nécessaire pour correspondre à l'emplacement de vos images
         return `src/images-icons/emoji/emoji${number}.png`;
       },
-      submitMood() {
-        console.log('Humeur soumise:', this.mood);
-  // Ici, vous mettriez la logique pour envoyer le vote au serveur...
 
-  // Après avoir soumis le vote
-      this.presentAlert();
+      async submitMood() {
+      // Assurez-vous que la variable `mood` n'est pas nulle avant de soumettre
+      if(this.mood === null) {
+        alert("Veuillez sélectionner votre humeur avant de soumettre.");
+        return;
+      }
+
+      try {
+        const response = await fetch('http://localhost:1337/api/moods', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer 8104b7a598979da05b13bfe5ebae2517b274c08a5a4e3e1571f92c5ab58a1e5892946ac83b97dad88a312616909fd555fbeab6dfaf806fd2db5722e2c881b2ff623f437405d5b8e9186c54739fb22ea10fca3de1789258c89f49b6a9e081c86bd3c8f64c7fcd2789139f12a99c505e2b1ebc946454a6f5bdaf0cc2922ddedcc5`, // Supposons que vous avez un token d'auth
+          },
+          body: JSON.stringify({
+            data: {
+              mood: this.mood,
+              date: new Date() // La date actuelle
+            }
+          })
+        });
+
+        if (!response.ok) {
+          throw new Error("Échec de l'envoi de l'humeur");
+        }
+
+        const responseData = await response.json();
+        // alert("Humeur soumise avec succès");
+        console.log('Humeur soumise avec succès:', responseData);
+
+        // Affichez le message de confirmation
+        this.showConfirmation = true;
+        setTimeout(() => {
+          this.showConfirmation = false;
+        }, 3000);
+      } catch (error) {
+        console.error("Erreur lors de l'envoi de l'humeur:", error);
       }
     }
-  };
+  }
+};
   
   </script>
   
   <style scoped>
   .emoji-display {
     text-align: center; /* Centre l'émoji principal */
-    margin-bottom: 20px; /* Espace entre l'émoji principal et la liste de sélection */
-    margin-top: 50px;
+    margin-bottom: 10px; /* Espace entre l'émoji principal et la liste de sélection */
+    margin-top: 10px;
     size: 205%;
   }
   
   .emoji-display img {
-    width: 35%; /* Ou la taille que vous souhaitez pour l'émoji principal */
+    width: 28%; /* Ou la taille que vous souhaitez pour l'émoji principal */
     height: auto;
   }
 
@@ -85,12 +117,12 @@
 /* Styles supplémentaires pour l'image pour s'assurer qu'elle s'affiche correctement dans le cercle */
 .selected img {
   display: block;
-  max-width: 45%;
+  max-width: 55%;
   height: auto;
 }
 
 .emote {
-  width: 30%; /* Ou la taille que vous souhaitez pour l'émoji principal */
+  width: 40%; /* Ou la taille que vous souhaitez pour l'émoji principal */
   height: auto;
 }
 
@@ -103,9 +135,23 @@
   text-align: center;
 }
 
-.ion-button {
+.BTN {
   text-align: center;
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  align-self: center;
+  align-items: center;
+  justify-content: center;
+  justify-self: center;
+  cursor: pointer;
+  margin-bottom: 10px;
 }
+.Button {
+  display: flex;
+  justify-content: center;
+}
+
 #templ{
   background-color: white;
   margin: 0;
@@ -119,6 +165,9 @@
   padding-bottom: 1%;
   padding-top: 1%;
   border-radius: 20px;
+}
+.Emote {
+    width: 120%;
 }
   </style>
   

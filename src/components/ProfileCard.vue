@@ -14,8 +14,8 @@
     </ion-item>
     <ion-item>
       <ion-toggle>
-        <ion-label>Allow Notifications</ion-label>
-        <ion-note color="medium">Unsubscribe at any time</ion-note>
+        <ion-label>Autoriser les notifications</ion-label>
+        <ion-note color="medium">Désactivable</ion-note>
       </ion-toggle>
     </ion-item>
   </ion-list>

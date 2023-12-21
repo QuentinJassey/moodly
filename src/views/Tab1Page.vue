@@ -11,7 +11,6 @@
         <div v-if="isManager" id="graph">  
           <p> L'humeur de votre équipe ces 30 derniers jours :</p>
           <ManagerInterface name="Manager" />
-          <Test></Test>
           
         </div>
       </div>
@@ -25,7 +24,6 @@ import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonImg } from '@i
 import ManagerInterface from '@/components/ManagerInterface.vue';
 import VoteMood from '@/components/VoteMood.vue';
 import UserProfile from '@/components/UserProfile.vue';
-import Test from '@/components/Test.vue';
 // Importez les composants Ionic nécessaires
 // ...
 
@@ -74,7 +72,7 @@ onMounted(() => {
 
 <style scoped>
 .gradient-background {
-  background: linear-gradient(180deg, rgba(186,207,255,1) 0%, rgba(255,255,255,1) 100%);
+  background: linear-gradient(180deg, rgba(186,207,255,1) 0%, rgba(243,247,255,1) 100%);
   height: 100%;
   position: relative;
   justify-content: flex-start;
@@ -93,13 +91,27 @@ onMounted(() => {
 #container{
   display: grid;
   grid-gap: 10px;
+  overflow: scroll;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 #graph{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   background-color: white;
+  width: 90%;
+  padding-left: 5%;
+  padding-right: 5%;
+  padding-bottom: 1%;
+  padding-top: 1%;
+  border-radius: 20px;
+  margin-bottom: 15%;
 }
 #mood{
-  
   
 }
 </style>
