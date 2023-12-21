@@ -6,7 +6,25 @@ export const register = async (userData) => {
 };
 
 export const login = async (userData) => {
-  return await api.post('/auth/local', userData);
+  try {
+    // Faire la demande de connexion à Strapi
+    const response = await api.post('/auth/local', userData);
+
+    // Supposons que la réponse inclut un objet 'user' avec un champ 'role'
+    const { jwt, user } = response.data;
+
+    // Stocker le JWT pour une utilisation ultérieure dans les requêtes authentifiées
+    localStorage.setItem('jwt', jwt);
+
+    // Stocker le rôle de l'utilisateur
+    localStorage.setItem('role', user.role);
+
+    // Retourner l'utilisateur et le JWT pour une utilisation ultérieure dans l'application
+    return { user, jwt };
+  } catch (error) {
+    // Gérer l'erreur de connexion
+    throw error;
+  }
 };
 
 export const forgotPassword = async (email) => {

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <button @click="loginWithMicrosoft">Se connecter avec Microsoft</button>
+    <img src="../images-icons/Microsoft.png" @click="loginWithMicrosoft"/>
   </div>
 </template>
 
@@ -17,3 +17,10 @@ export default {
   }
 };
 </script>
+
+<style scoped >
+img {
+  width: 80%;
+  cursor: pointer;
+}
+</style>

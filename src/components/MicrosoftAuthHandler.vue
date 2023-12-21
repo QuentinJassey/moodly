@@ -66,7 +66,8 @@
             body: JSON.stringify({
               username: userData.username,
               email: userData.email,
-              password: userData.password
+              password: userData.password,
+              role2 : "Défaut"
             })
           });
   
@@ -82,4 +83,6 @@
       }
     }
   };
+
+  
   </script>
